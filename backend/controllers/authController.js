@@ -1,5 +1,49 @@
+const crypto = require("crypto");
 const Partner = require("../models/Partner");
 const User = require("../models/User");
+
+const HASH_PREFIX = "pbkdf2";
+const HASH_ITERATIONS = 120000;
+const HASH_KEYLEN = 64;
+const HASH_DIGEST = "sha512";
+
+const hashPassword = (password) => {
+  const salt = crypto.randomBytes(16).toString("hex");
+  const hash = crypto
+    .pbkdf2Sync(password, salt, HASH_ITERATIONS, HASH_KEYLEN, HASH_DIGEST)
+    .toString("hex");
+  return `${HASH_PREFIX}$${HASH_ITERATIONS}$${salt}$${hash}`;
+};
+
+const isHashedPassword = (value) =>
+  typeof value === "string" && value.startsWith(`${HASH_PREFIX}$`);
+
+const verifyPassword = (password, stored) => {
+  if (!isHashedPassword(stored)) {
+    return stored === password;
+  }
+  const parts = stored.split("$");
+  if (parts.length !== 4) {
+    return false;
+  }
+  const [, iterations, salt, hash] = parts;
+  const derived = crypto
+    .pbkdf2Sync(
+      password,
+      salt,
+      Number(iterations),
+      HASH_KEYLEN,
+      HASH_DIGEST
+    )
+    .toString("hex");
+  if (hash.length !== derived.length) {
+    return false;
+  }
+  return crypto.timingSafeEqual(
+    Buffer.from(hash, "hex"),
+    Buffer.from(derived, "hex")
+  );
+};
 
 const signup = async (req, res, next) => {
   try {
@@ -11,8 +55,14 @@ const signup = async (req, res, next) => {
     if (existing) {
       return res.status(409).json({ message: "Email already registered" });
     }
-    const user = await User.create({ name, email, password, role });
+    const user = await User.create({
+      name,
+      email,
+      password: hashPassword(password),
+      role,
+    });
     const responseUser = user.toObject();
+    delete responseUser.password;
     if (role === "PARTNER") {
       const partner = await Partner.create({
         storeName: `${name} Hub`,
@@ -39,11 +89,16 @@ const login = async (req, res, next) => {
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password required" });
     }
-    const user = await User.findOne({ email, password });
-    if (!user) {
+    const user = await User.findOne({ email });
+    if (!user || !verifyPassword(password, user.password)) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
+    if (!isHashedPassword(user.password)) {
+      user.password = hashPassword(password);
+      await user.save();
+    }
     const responseUser = user.toObject();
+    delete responseUser.password;
     if (user.role === "PARTNER") {
       let partner = await Partner.findOne({ email });
       if (!partner) {
