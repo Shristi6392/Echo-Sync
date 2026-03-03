@@ -7,9 +7,10 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const raw = localStorage.getItem("ecoUser");
   if (raw) {
-    const user = JSON.parse(raw);
-    if (user?.role) {
-      config.headers["x-user-role"] = user.role;
+    const stored = JSON.parse(raw);
+    const token = stored?.token || null;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
   }
   return config;

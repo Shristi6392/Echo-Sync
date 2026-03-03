@@ -3,25 +3,45 @@ import api from "../api/client";
 
 const AuthContext = createContext(null);
 
+const getStoredSession = () => {
+  const raw = localStorage.getItem("ecoUser");
+  if (!raw) {
+    return { user: null, token: null };
+  }
+  const parsed = JSON.parse(raw);
+  if (parsed?.user) {
+    return { user: parsed.user, token: parsed.token || null };
+  }
+  return { user: parsed, token: null };
+};
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const raw = localStorage.getItem("ecoUser");
-    return raw ? JSON.parse(raw) : null;
-  });
+  const stored = getStoredSession();
+  const [user, setUser] = useState(() => stored.user);
   const [loading] = useState(false);
 
   const login = async (email, password) => {
     const { data } = await api.post("/api/auth/login", { email, password });
-    localStorage.setItem("ecoUser", JSON.stringify(data));
-    setUser(data);
-    return data;
+    const nextUser = data?.user || data;
+    const nextToken = data?.token || null;
+    localStorage.setItem(
+      "ecoUser",
+      JSON.stringify({ user: nextUser, token: nextToken })
+    );
+    setUser(nextUser);
+    return nextUser;
   };
 
   const signup = async (payload) => {
     const { data } = await api.post("/api/auth/signup", payload);
-    localStorage.setItem("ecoUser", JSON.stringify(data));
-    setUser(data);
-    return data;
+    const nextUser = data?.user || data;
+    const nextToken = data?.token || null;
+    localStorage.setItem(
+      "ecoUser",
+      JSON.stringify({ user: nextUser, token: nextToken })
+    );
+    setUser(nextUser);
+    return nextUser;
   };
 
   const logout = () => {

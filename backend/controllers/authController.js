@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 const Partner = require("../models/Partner");
 const User = require("../models/User");
 
@@ -6,6 +7,8 @@ const HASH_PREFIX = "pbkdf2";
 const HASH_ITERATIONS = 120000;
 const HASH_KEYLEN = 64;
 const HASH_DIGEST = "sha512";
+const JWT_SECRET = process.env.JWT_SECRET || "eco_sync_secret";
+const JWT_EXPIRES_IN = "7d";
 
 const hashPassword = (password) => {
   const salt = crypto.randomBytes(16).toString("hex");
@@ -45,6 +48,18 @@ const verifyPassword = (password, stored) => {
   );
 };
 
+const createToken = (user) =>
+  jwt.sign(
+    {
+      userId: user._id,
+      role: user.role,
+      email: user.email,
+      name: user.name,
+    },
+    JWT_SECRET,
+    { expiresIn: JWT_EXPIRES_IN }
+  );
+
 const signup = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
@@ -77,7 +92,8 @@ const signup = async (req, res, next) => {
       });
       responseUser.partnerId = partner._id;
     }
-    return res.status(201).json(responseUser);
+    const token = createToken(responseUser);
+    return res.status(201).json({ user: responseUser, token });
   } catch (error) {
     return next(error);
   }
@@ -116,7 +132,8 @@ const login = async (req, res, next) => {
       }
       responseUser.partnerId = partner._id;
     }
-    return res.json(responseUser);
+    const token = createToken(responseUser);
+    return res.json({ user: responseUser, token });
   } catch (error) {
     return next(error);
   }
