@@ -392,6 +392,22 @@ It is a sustainable ecosystem.
 ![Admin Page-1](./Snapshots/Admin_pg1.png)
 ![Admin Page-2](./Snapshots/Admin_pg2.png)
 
+## 🌐 Live-Demo // Deployment
+
+- **Frontend (Vercel):** [https://your-frontend.vercel.app]
+- **Backend API (Render):** [https://your-backend-service.onrender.com]
+
+> The frontend is fully connected to the backend API. Test it live by visiting the frontend link.
+## 🔗 Test Frontend ↔ Backend Connection
+
+Open the browser console on the frontend and run:
+```js
+fetch("https://your-backend-service.onrender.com/api/users")
+  .then(res => res.json())
+  .then(data => console.log("Backend response:", data));
+
+You should see:
+{ "message": "Eco-Sync API running" }
 
 👩‍💻 Developed By
 
