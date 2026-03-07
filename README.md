@@ -100,210 +100,122 @@ Role-Based Access
 👥 User Roles
 
 USER → Citizens
-
 PARTNER → Grocery Store Owners
-
 ADMIN → Eco-Sync Operations Team
 
 Each role sees a dedicated dashboard with different functionalities.
 📱 Platform Features Overview
 👤 User Dashboard
-
 AI-based waste scan (mock detection)
-
 QR generation
-
 Points wallet
-
 Leaderboard
-
 Nearby store map
-
 Pickup request
-
 Rewards redemption
 
 🏪 Partner Dashboard
-
 QR code scanning
-
 Bin fill status monitoring
-
 Daily transactions
-
 Earnings tracking
-
 Pickup request submission
 
 🧑‍💼 Admin Dashboard
-
 All bins map view
-
 Pickup scheduling
-
 User management
-
 Partner management
-
 Analytics dashboard
-
 Recycler reports
 
 ✨ Key Features
+
 👤 User Dashboard
-
 📷 AI-based E-Waste Scan (mock detection)
-
 🎁 Points & Wallet System
-
 🗺 Nearby Partner Stores (Map Integration)
-
 🚚 Doorstep Pickup Request
-
 🏆 Leaderboard
-
 🎟 Rewards & Redemption
-
 🔳 QR Code Generation
 
 🏪 Partner Dashboard
-
 🔍 QR Code Scanner
-
 🗑 Bin Fill Status Monitor
-
 💰 Earnings Tracker
-
 📊 Daily Transactions
-
 🚛 Bin Pickup Request
 
 🧑‍💼 Admin Dashboard
-
 🗺 All Bin Status (Color-coded Map)
-
 📦 Pickup Scheduling & Management
-
 🚐 Van Routing
-
 👥 User & Partner Management
-
 📈 Advanced Analytics Dashboard
-
 📑 Recycler Reports
+
 🔄 How the System Works (Step-by-Step Flow)
+
 👤 Step 1 – User
-
 User signs up.
-
 Uploads/Scans small e-waste.
-
 Generates QR code.
-
 Visits nearby partner store.
-
 Drops waste in smart bin.
-
 Partner scans QR.
-
 User earns eco-points.
 
 🏪 Step 2 – Partner (Grocery Store)
-
 Acts as local collection center.
-
 Scans QR codes from users.
-
 Tracks bin fill levels.
-
 Requests pickup when bin is full.
-
 Earns commission per transaction.
 
 🧑‍💼 Step 3 – Admin
-
 Monitors all bins on map.
-
 Approves pickup requests.
-
 Tracks waste volume.
-
 Analyzes performance.
-
 Generates reports.
 
 🛠 Tech Stack
 🎨 Frontend
-
 React (Vite)
-
 Tailwind CSS
-
 React Router
-
 Recharts (Analytics)
-
 Leaflet (Maps)
-
 Framer Motion (Animations)
-
 Context API
 
 ⚙ Backend
-
 Node.js
-
 Express.js
-
 MongoDB
-
 Mongoose
-
 REST APIs
-
 MVC Architecture
 
 🗄 Database
-
 MongoDB Atlas
-
 Aggregation Pipelines for Analytics
 
 🔐 Authentication
-
 Simple Login & Signup
-
 Role-based routing
-
 No JWT (basic session using localStorage)
-
 Role-controlled dashboard rendering
 
 🎬 Special Feature – Animated Smart Bin Intro
-
-When the app opens:
-
-Small e-waste items fall into a smart animated recycling bin
-The bin fills up
-Eco message appears
-Then smoothly transitions to the app
-
-This gives the platform a premium and engaging startup feel.
-
 📊 Analytics Capabilities
-
 Total e-waste collected
-
 Revenue tracking
-
 Monthly growth trends
-
 Top performing partners
-
 Leaderboard ranking
-
 Waste category distribution (Pie chart)
-
 🧠 How It Works
 
 1️⃣ User signs up and selects role
@@ -342,40 +254,28 @@ npm start
 cd frontend
 npm install
 npm run dev
+
 🌱 Future Enhancements
-
 Real AI waste detection
-
 IoT smart bins integration
-
 Blockchain-based recycling tracking
-
 Government compliance dashboard
-
 Mobile app (React Native)
-
 Real-time notifications
 
 🎯 Impact Vision
-
 Echo Sync aims to:
-
 Reduce small e-waste pollution
-
 Incentivize responsible disposal
-
 Empower local businesses
-
 Enable data-driven waste management
-
 Create a cleaner and greener ecosystem
 
 🏆 Why This Project Matters
-
 E-waste is one of the fastest-growing waste streams globally.
-
 Echo Sync is not just an app —
 It is a sustainable ecosystem.
+
 ## 📸 Project Screenshots
 ![Front Page](./Snapshots/Front_pg.png)
 ![Home Page-1](./Snapshots/Home_pg1.png)
