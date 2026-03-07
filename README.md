@@ -394,8 +394,8 @@ It is a sustainable ecosystem.
 
 ## 🌐 Live-Demo // Deployment
 
-- **Frontend (Vercel):** [https://your-frontend.vercel.app]
-- **Backend API (Render):** [https://your-backend-service.onrender.com]
+- **Frontend (Vercel):** [https://echo-sync-cxqce4cop-shristishukla6392-4184s-projects.vercel.app]
+- **Backend API (Render):** [https://echo-sync-backend.onrender.com]
 
 > The frontend is fully connected to the backend API. Test it live by visiting the frontend link.
 ## 🔗 Test Frontend ↔ Backend Connection
